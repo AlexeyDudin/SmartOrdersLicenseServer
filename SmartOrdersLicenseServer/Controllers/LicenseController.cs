@@ -23,10 +23,10 @@ namespace SmartOrdersLicenseServer.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet, Route("check")]
-        public IActionResult IsAvailable([FromRoute] LicenseDTO license)
+        [HttpGet("check/{key}/{pcHash}")]
+        public IActionResult IsAvailable(string key, string pcHash)
         {
-            return GetResponse(licenseServiseApi.IsAvailable(license.Key, license.PcHash));
+            return GetResponse(licenseServiseApi.IsAvailable(key, pcHash));
         }
 
         [AllowAnonymous]
@@ -40,21 +40,23 @@ namespace SmartOrdersLicenseServer.Controllers
         [HttpGet("add/{count}")]
         public IActionResult AddKeys(int count)
         {
-            return GetResponse(licenseServiseApi.AddKey());
+            return GetResponse(licenseServiseApi.AddKeysPool(count));
         }
 
         [AllowAnonymous]
         [HttpGet("add/temp/{expiredDate}")]
-        public IActionResult AddKey(DateTime expiredDate)
+        public IActionResult AddKey(string expiredDate)
         {
-            return GetResponse(licenseServiseApi.AddKey(expiredDate));
+            DateTime date = DateTime.Parse(expiredDate);
+            return GetResponse(licenseServiseApi.AddKey(date));
         }
 
         [AllowAnonymous]
         [HttpGet("add/temp/{count}/{expiredDate}")]
-        public IActionResult AddKeys(int count, DateTime expiredDate)
+        public IActionResult AddKeys(int count, string expiredDate)
         {
-            return GetResponse(licenseServiseApi.AddKeysPool(count, expiredDate));
+            DateTime date = DateTime.Parse(expiredDate);
+            return GetResponse(licenseServiseApi.AddKeysPool(count, date));
         }
 
         [AllowAnonymous]
@@ -65,10 +67,10 @@ namespace SmartOrdersLicenseServer.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("set/full")]
-        public IActionResult SetFullLicense([FromRoute] LicenseDTO license)
+        [HttpGet("set/full/{key}")]
+        public IActionResult SetFullLicense(string key)
         {
-            return GetResponse(licenseServiseApi.SetFullLicense(license));
+            return GetResponse(licenseServiseApi.SetFullLicense(key));
         }
 
         [AllowAnonymous]

@@ -9,7 +9,7 @@ namespace SmartOrdersLicenseServer.Services
         Result AddKeysPool(int count, DateTime? expiredDate = null);
         Result SetPcHash(string key, string pcHash);
         Result CleanPCHash(string key);
-        Result SetFullLicense(LicenseDTO license);
+        Result SetFullLicense(string key);
         Result GetAll();
     }
 }

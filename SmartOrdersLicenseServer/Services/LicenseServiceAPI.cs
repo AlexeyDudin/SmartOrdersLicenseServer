@@ -72,11 +72,11 @@ namespace SmartOrdersLicenseServer.Services
             }
         }
 
-        public Result SetFullLicense(LicenseDTO license)
+        public Result SetFullLicense(string key)
         {
             try
             {
-                return new Result(licenseService.ActivateFullLicense(license.Key).ToLicenseDTO(), ResponseStatus.Ok);
+                return new Result(licenseService.ActivateFullLicense(key).ToLicenseDTO(), ResponseStatus.Ok);
             }
             catch (Exception ex)
             {
