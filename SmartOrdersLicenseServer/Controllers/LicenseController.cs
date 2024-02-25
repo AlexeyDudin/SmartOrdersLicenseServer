@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SmartOrdersLicenseServer.DTOs;
 using SmartOrdersLicenseServer.Services;
+using System.Globalization;
 
 namespace SmartOrdersLicenseServer.Controllers
 {
@@ -47,7 +48,7 @@ namespace SmartOrdersLicenseServer.Controllers
         [HttpGet("add/temp/{expiredDate}")]
         public IActionResult AddKey(string expiredDate)
         {
-            DateTime date = DateTime.Parse(expiredDate);
+            DateTime date = DateTime.Parse(expiredDate, new CultureInfo("ru-RU"));
             return GetResponse(licenseServiseApi.AddKey(date));
         }
 
@@ -55,7 +56,7 @@ namespace SmartOrdersLicenseServer.Controllers
         [HttpGet("add/temp/{count}/{expiredDate}")]
         public IActionResult AddKeys(int count, string expiredDate)
         {
-            DateTime date = DateTime.Parse(expiredDate);
+            DateTime date = DateTime.Parse(expiredDate, new CultureInfo("ru-RU"));
             return GetResponse(licenseServiseApi.AddKeysPool(count, date));
         }
 
