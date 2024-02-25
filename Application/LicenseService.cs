@@ -60,9 +60,17 @@ namespace Application
 
         public License IsAvailable(string key, string hash)
         {
-            var license = unitOfWork.LicenseRepository.Where(l => l.Key == key && l.PCHash == hash).FirstOrDefault();
+            License? license = unitOfWork.LicenseRepository.Where(l => l.Key == key && l.PCHash == hash).FirstOrDefault();
             if (license == null)
-                throw new Exception($"Ключ {key} не найден в БД");
+            {
+                var tmpLicense = unitOfWork.LicenseRepository.Where(l => l.Key == key).FirstOrDefault();
+                if (tmpLicense == null)
+                    throw new Exception($"Ключ {key} не найден в БД");
+                if (string.IsNullOrEmpty(tmpLicense.PCHash))
+                    return tmpLicense;
+                throw new Exception($"Ключ {key} уже занят другим компьютером");
+            }
+            
             return license;
         }
 
